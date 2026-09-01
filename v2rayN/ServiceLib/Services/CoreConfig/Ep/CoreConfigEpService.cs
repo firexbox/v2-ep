@@ -16,6 +16,21 @@ public class CoreConfigEpService(CoreConfigContext context)
 
     public RetResult GenerateClientConfigContent()
     {
+        var socksPort = AppManager.Instance.GetLocalPort(EInboundProtocol.socks);
+        return GenerateConfig(socksPort, socksPort + 1);
+    }
+
+    /// <summary>
+    ///     Generates a speed-test config: the encrypted-proxy client listens on the given
+    ///     speed-test port (single server, no extra HTTP listener).
+    /// </summary>
+    public RetResult GenerateSpeedtestConfig(int port)
+    {
+        return GenerateConfig(port, 0);
+    }
+
+    private RetResult GenerateConfig(int listenPort, int httpPort)
+    {
         var ret = new RetResult();
         try
         {
@@ -25,34 +40,29 @@ public class CoreConfigEpService(CoreConfigContext context)
                 return ret;
             }
 
-            var socksPort = AppManager.Instance.GetLocalPort(EInboundProtocol.socks);
-            var httpPort = socksPort + 1;
             var protocolExtra = _node.GetProtocolExtra();
 
             var root = new JsonObject
             {
                 ["mode"] = "client",
-                ["listen"] = $"127.0.0.1:{socksPort}",
-                ["http-listen"] = $"127.0.0.1:{httpPort}",
+                ["listen"] = $"127.0.0.1:{listenPort}",
                 ["remote"] = $"{_node.Address}:{_node.Port}",
                 ["password"] = _node.Password,
                 ["obfs"] = protocolExtra.Obfs ?? true,
                 ["jitter"] = protocolExtra.Jitter ?? false,
                 ["pool-size"] = protocolExtra.PoolSize ?? 5,
-                ["inbounds"] = new JsonArray
+            };
+            if (httpPort > 0)
+            {
+                root["http-listen"] = $"127.0.0.1:{httpPort}";
+            }
+            root["inbounds"] = new JsonArray
+            {
+                new JsonObject
                 {
-                    new JsonObject
-                    {
-                        ["protocol"] = "socks",
-                        ["listen"] = "127.0.0.1",
-                        ["port"] = socksPort,
-                    },
-                    new JsonObject
-                    {
-                        ["protocol"] = "http",
-                        ["listen"] = "127.0.0.1",
-                        ["port"] = httpPort,
-                    },
+                    ["protocol"] = "socks",
+                    ["listen"] = "127.0.0.1",
+                    ["port"] = listenPort,
                 },
             };
 

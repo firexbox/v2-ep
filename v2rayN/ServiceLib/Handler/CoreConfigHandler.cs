@@ -140,6 +140,10 @@ public static class CoreConfigHandler
         {
             result = new CoreConfigSingboxService(context).GenerateClientSpeedtestConfig(port);
         }
+        else if (context.RunCoreType == ECoreType.encryptedproxy)
+        {
+            result = new CoreConfigEpService(context).GenerateSpeedtestConfig(port);
+        }
         else
         {
             result = new CoreConfigV2rayService(context).GenerateClientSpeedtestConfig(port);

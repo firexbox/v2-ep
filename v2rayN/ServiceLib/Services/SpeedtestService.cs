@@ -228,6 +228,20 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
 
     private async Task<bool> RunRealPingAsync(List<ServerTestItem> selecteds, string exitLoopKey)
     {
+        // encrypted-proxy 核心是单服务器客户端，无法生成批量测速配置（多 outbound），
+        // 因此 EP 节点单独走单节点混合测试路径（每个节点独立启动 EP 核心）。
+        var epSelecteds = selecteds.Where(t => t.CoreType == ECoreType.encryptedproxy).ToList();
+        if (epSelecteds.Count > 0)
+        {
+            var others = selecteds.Where(t => t.CoreType != ECoreType.encryptedproxy).ToList();
+            await RunMixedTestAsync(epSelecteds, _config.SpeedTestItem.MixedConcurrencyCount, false, exitLoopKey);
+            if (others.Count == 0)
+            {
+                return true;
+            }
+            selecteds = others;
+        }
+
         ProcessService processService = null;
         try
         {
