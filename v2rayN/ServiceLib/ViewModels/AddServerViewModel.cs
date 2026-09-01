@@ -86,6 +86,12 @@ public partial class AddServerViewModel : MyReactiveObject, ICloseable
     public partial bool NaiveQuic { get; set; }
 
     [Reactive]
+    public partial bool EpObfs { get; set; }
+
+    [Reactive]
+    public partial bool EpJitter { get; set; }
+
+    [Reactive]
     public partial string HttpHeadersJson { get; set; }
 
     [Reactive]
@@ -291,6 +297,11 @@ public partial class AddServerViewModel : MyReactiveObject, ICloseable
             SelectedSource = JsonUtils.DeepCopy(profileItem);
         }
         CoreType = SelectedSource?.CoreType?.ToString();
+        if (CoreType.IsNullOrEmpty() && SelectedSource?.ConfigType == EConfigType.EncryptedProxy)
+        {
+            // encrypted-proxy 协议使用专用核心
+            CoreType = nameof(ECoreType.encryptedproxy);
+        }
         AllowInsecure = SelectedSource?.GetAllowInsecure() == true;
         MuxEnabled = SelectedSource?.MuxEnabled == true;
         Cert = SelectedSource?.Cert ?? string.Empty;
@@ -318,6 +329,8 @@ public partial class AddServerViewModel : MyReactiveObject, ICloseable
         CongestionControl = protocolExtra.CongestionControl ?? string.Empty;
         InsecureConcurrency = protocolExtra.InsecureConcurrency > 0 ? protocolExtra.InsecureConcurrency : null;
         NaiveQuic = protocolExtra.NaiveQuic ?? false;
+        EpObfs = protocolExtra.Obfs ?? true;
+        EpJitter = protocolExtra.Jitter ?? false;
         HttpHeadersJson = protocolExtra.HttpHeaders ?? string.Empty;
         Hy2RealmUrl = protocolExtra.Hy2RealmUrl ?? string.Empty;
         GeckoMinPacketSize = protocolExtra.GeckoMinPacketSize.ToInt();
@@ -440,6 +453,8 @@ public partial class AddServerViewModel : MyReactiveObject, ICloseable
             CongestionControl = CongestionControl.NullIfEmpty(),
             InsecureConcurrency = InsecureConcurrency > 0 ? InsecureConcurrency : null,
             NaiveQuic = NaiveQuic ? true : null,
+            Obfs = EpObfs ? true : null,
+            Jitter = EpJitter ? true : null,
             Hy2RealmUrl = realm?.ToUri().NullIfEmpty(),
             GeckoMinPacketSize = GeckoMinPacketSize > 0 ? GeckoMinPacketSize.ToString() : null,
             GeckoMaxPacketSize = GeckoMaxPacketSize > 0 ? GeckoMaxPacketSize.ToString() : null,

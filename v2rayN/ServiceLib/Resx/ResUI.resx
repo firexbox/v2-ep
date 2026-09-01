@@ -1872,4 +1872,16 @@ The "Get Certificate" action may fail if a self-signed certificate is used or if
   <data name="TbDNS" xml:space="preserve">
     <value>DNS</value>
   </data>
+  <data name="menuAddEncryptedProxyServer" xml:space="preserve">
+    <value>添加[加密代理]服务器</value>
+  </data>
+  <data name="TbPassword" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="TbObfs" xml:space="preserve">
+    <value>流量混淆</value>
+  </data>
+  <data name="TbJitter" xml:space="preserve">
+    <value>时序抖动</value>
+  </data>
 </root>

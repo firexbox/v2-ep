@@ -19,6 +19,7 @@ public class FmtHandlerTests
         [EConfigType.WireGuard] = CreateWireguardProfile,
         [EConfigType.Anytls] = CreateAnytlsProfile,
         [EConfigType.Naive] = () => CreateNaiveProfile(false),
+        [EConfigType.EncryptedProxy] = CreateEpProfile,
     };
 
     [Test]
@@ -482,6 +483,24 @@ public class FmtHandlerTests
         };
 
         item.SetTransportExtra(new TransportExtraItem { RawHeaderType = Global.None, });
+
+        return item;
+    }
+
+    private static ProfileItem CreateEpProfile()
+    {
+        var item = new ProfileItem
+        {
+            ConfigType = EConfigType.EncryptedProxy,
+            Remarks = "ep demo",
+            Address = "ep.example",
+            Port = 8388,
+            Password = "ep-pass",
+            Network = nameof(ETransport.raw),
+            StreamSecurity = string.Empty,
+        };
+
+        item.SetProtocolExtra(item.GetProtocolExtra() with { Obfs = true, Jitter = false, PoolSize = 5 });
 
         return item;
     }

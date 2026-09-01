@@ -46,6 +46,11 @@ public record ProtocolExtraItem
     public int? InsecureConcurrency { get; init; }
     public bool? NaiveQuic { get; init; }
 
+    // encrypted-proxy
+    public bool? Obfs { get; init; }
+    public bool? Jitter { get; init; }
+    public int? PoolSize { get; init; }
+
     // group profile
     public string? GroupType { get; init; }
     public string? ChildItems { get; init; }

@@ -5318,5 +5318,41 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("UpgradeAppNotExistTip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 添加[加密代理]服务器 的本地化字符串。
+        /// </summary>
+        public static string menuAddEncryptedProxyServer {
+            get {
+                return ResourceManager.GetString("menuAddEncryptedProxyServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码 的本地化字符串。
+        /// </summary>
+        public static string TbPassword {
+            get {
+                return ResourceManager.GetString("TbPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 流量混淆 的本地化字符串。
+        /// </summary>
+        public static string TbObfs {
+            get {
+                return ResourceManager.GetString("TbObfs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 时序抖动 的本地化字符串。
+        /// </summary>
+        public static string TbJitter {
+            get {
+                return ResourceManager.GetString("TbJitter", resourceCulture);
+            }
+        }
     }
 }

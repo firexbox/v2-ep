@@ -104,6 +104,11 @@ public class NodeValidator
                     Global.SsSecuritiesInSingbox.Contains(protocolExtra.SsMethod),
                     string.Format(ResUI.MsgInvalidProperty, ResUI.TbSecurity3));
                 break;
+
+            case EConfigType.EncryptedProxy:
+                v.Assert(!item.Password.IsNullOrEmpty(),
+                    string.Format(ResUI.MsgInvalidProperty, ResUI.TbPassword));
+                break;
         }
 
         if (coreType is ECoreType.Xray

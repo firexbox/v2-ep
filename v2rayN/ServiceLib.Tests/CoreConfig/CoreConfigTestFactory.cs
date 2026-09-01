@@ -150,6 +150,27 @@ internal static class CoreConfigTestFactory
         };
     }
 
+    public static ProfileItem CreateEpNode(ECoreType coreType, string indexId = "node-ep-1",
+        string remarks = "demo-ep", bool obfs = true, bool jitter = false)
+    {
+        var node = new ProfileItem
+        {
+            IndexId = indexId,
+            ConfigType = EConfigType.EncryptedProxy,
+            CoreType = coreType,
+            Remarks = remarks,
+            Address = "ep.example.com",
+            Port = 8388,
+            Password = "ep-password",
+            Network = nameof(ETransport.raw),
+            StreamSecurity = string.Empty,
+            Subid = string.Empty,
+        };
+        node.SetProtocolExtra(node.GetProtocolExtra() with { Obfs = obfs, Jitter = jitter, PoolSize = 5 });
+
+        return node;
+    }
+
     public static ProfileItem CreateCustomOutboundNode(ECoreType coreType, string indexId = "node-custom-1",
         string remarks = "demo-custom-outbound", string address = "custom_outbound.json")
     {

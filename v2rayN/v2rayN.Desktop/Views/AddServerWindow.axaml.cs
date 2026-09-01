@@ -141,6 +141,12 @@ public partial class AddServerWindow : WindowBase<AddServerViewModel>
                             this.Bind(ViewModel, vm => vm.InsecureConcurrency, v => v.txtInsecureConcurrency12.Text).DisposeWith(currentTypeDisposables);
                             this.Bind(ViewModel, vm => vm.Uot, v => v.togUotEnabled12.IsChecked).DisposeWith(currentTypeDisposables);
                             break;
+
+                        case EConfigType.EncryptedProxy:
+                            this.Bind(ViewModel, vm => vm.SelectedSource.Password, v => v.txtId14.Text).DisposeWith(currentTypeDisposables);
+                            this.Bind(ViewModel, vm => vm.EpObfs, v => v.togEpObfs14.IsChecked).DisposeWith(currentTypeDisposables);
+                            this.Bind(ViewModel, vm => vm.EpJitter, v => v.togEpJitter14.IsChecked).DisposeWith(currentTypeDisposables);
+                            break;
                     }
                 })
                 .DisposeWith(disposables);
@@ -283,6 +289,18 @@ public partial class AddServerWindow : WindowBase<AddServerViewModel>
                 togAllowInsecure.IsEnabled = false;
 
                 cmbCongestionControl12.ItemsSource = Global.NaiveCongestionControls;
+                break;
+
+            case EConfigType.EncryptedProxy:
+                gridEncryptedProxy.IsVisible = true;
+                sepa2.IsVisible = false;
+                gridTransport.IsVisible = false;
+                gridTls.IsVisible = false;
+                gridFinalmask.IsVisible = false;
+                cmbCoreType.IsEnabled = false;
+                cmbFingerprint.IsEnabled = false;
+                cmbAlpn.IsEnabled = false;
+                togAllowInsecure.IsEnabled = false;
                 break;
         }
         cmbStreamSecurity.ItemsSource = lstStreamSecurity;

@@ -215,6 +215,15 @@ public sealed class CoreInfoManager
 
                 new CoreInfo
                 {
+                    CoreType = ECoreType.encryptedproxy,
+                    CoreExes = ["encrypted-proxy"],
+                    Arguments = "-config {0}",
+                    Url = GetCoreUrl(ECoreType.encryptedproxy),
+                    Match = "encrypted-proxy",
+                },
+
+                new CoreInfo
+                {
                     CoreType = ECoreType.sing_box,
                     CoreExes = ["sing-box-client", "sing-box"],
                     Arguments = "run -c {0} --disable-color",

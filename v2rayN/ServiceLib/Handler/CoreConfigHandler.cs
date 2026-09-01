@@ -25,6 +25,10 @@ public static class CoreConfigHandler
         {
             result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
         }
+        else if (context.RunCoreType == ECoreType.encryptedproxy)
+        {
+            result = new CoreConfigEpService(context).GenerateClientConfigContent();
+        }
         else
         {
             result = new CoreConfigV2rayService(context).GenerateClientConfigContent();
