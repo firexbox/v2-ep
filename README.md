@@ -6,7 +6,7 @@
 
 | 组件 | 说明 |
 |------|------|
-| **加密代理节点** | 服务器菜单 → 添加[加密代理]服务器，支持密码 + 流量混淆(obfs) + 时序抖动(jitter) 开关 |
+| **加密代理节点** | 服务器菜单 → 添加[encrypted-proxy]，支持密码 + 流量混淆(obfs) + 时序抖动(jitter) 开关 |
 | **ep:// 分享链接** | 支持导入/导出，格式：`ep://密码@主机:端口?obfs=1&jitter=1#备注` |
 | **独立核心** | 内置 encrypted-proxy 客户端核心（bin/encryptedproxy/），以 `-config config.json` 方式启动，自动监听 v2rayN 配置的本地 SOCKS/HTTP 端口 |
 | **原版功能** | 全部保留 — Xray/sing-box/mihomo 核心、TUN 模式、路由分流、订阅更新、测速、剪贴板/二维码导入等 |
@@ -44,7 +44,7 @@ dotnet publish ./v2rayN/v2rayN.csproj -c Release -r win-x64 -p:SelfContained=tru
 
 ## 快速开始
 
-1. 解压运行 `v2rayN.exe`，点击菜单 **服务器 → 添加[加密代理]服务器**
+1. 解压运行 `v2rayN.exe`，点击菜单 **服务器 → 添加[encrypted-proxy]**
 2. 填写：地址、端口、密码（勾选"流量混淆"以与服务端 `-obfs` 参数匹配）
 3. 或直接粘贴分享链接：`ep://your-password@your-server.com:8388?obfs=1#my-ep`
 4. 选中节点 → 回车启动，系统代理自动生效（默认 127.0.0.1:10808）

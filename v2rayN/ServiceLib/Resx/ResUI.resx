@@ -1873,7 +1873,7 @@ The "Get Certificate" action may fail if a self-signed certificate is used or if
     <value>DNS</value>
   </data>
   <data name="menuAddEncryptedProxyServer" xml:space="preserve">
-    <value>添加[加密代理]服务器</value>
+    <value>添加[encrypted-proxy]</value>
   </data>
   <data name="TbPassword" xml:space="preserve">
     <value>密码</value>

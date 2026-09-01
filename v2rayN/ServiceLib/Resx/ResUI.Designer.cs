@@ -5320,7 +5320,7 @@ namespace ServiceLib.Resx {
         }
         
         /// <summary>
-        ///   查找类似 添加[加密代理]服务器 的本地化字符串。
+        ///   查找类似 添加[encrypted-proxy] 的本地化字符串。
         /// </summary>
         public static string menuAddEncryptedProxyServer {
             get {
