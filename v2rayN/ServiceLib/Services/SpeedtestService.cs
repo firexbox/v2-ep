@@ -323,6 +323,22 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
 
     private async Task<bool> RunUdpTestAsync(List<ServerTestItem> selecteds, string exitLoopKey)
     {
+        // encrypted-proxy 核心不支持 UDP，EP 节点直接标记跳过
+        var epSelecteds = selecteds.Where(t => t.CoreType == ECoreType.encryptedproxy).ToList();
+        if (epSelecteds.Count > 0)
+        {
+            foreach (var it in epSelecteds)
+            {
+                await UpdateFunc(it.IndexId, ResUI.SpeedtestingSkip);
+            }
+            var others = selecteds.Where(t => t.CoreType != ECoreType.encryptedproxy).ToList();
+            if (others.Count == 0)
+            {
+                return true;
+            }
+            selecteds = others;
+        }
+
         ProcessService processService = null;
         try
         {
@@ -525,6 +541,8 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         List<List<ServerTestItem>> lstTest = [];
         var lst1 = lstSelected.Where(t => t.CoreType == ECoreType.Xray).ToList();
         var lst2 = lstSelected.Where(t => t.CoreType == ECoreType.sing_box).ToList();
+        // encrypted-proxy 节点同样参与测试；真实延迟路径会将其分流到单节点测试
+        var lstEp = lstSelected.Where(t => t.CoreType == ECoreType.encryptedproxy).ToList();
 
         for (var num = 0; num < (int)Math.Ceiling(lst1.Count * 1.0 / pageSize); num++)
         {
@@ -533,6 +551,10 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         for (var num = 0; num < (int)Math.Ceiling(lst2.Count * 1.0 / pageSize); num++)
         {
             lstTest.Add(lst2.Skip(num * pageSize).Take(pageSize).ToList());
+        }
+        for (var num = 0; num < (int)Math.Ceiling(lstEp.Count * 1.0 / pageSize); num++)
+        {
+            lstTest.Add(lstEp.Skip(num * pageSize).Take(pageSize).ToList());
         }
 
         return lstTest;
