@@ -648,7 +648,7 @@ public class Global
         { ECoreType.shadowquic, "spongebob888/shadowquic" },
         { ECoreType.mieru, "enfein/mieru" },
         { ECoreType.encryptedproxy, "firexbox/encrypted-proxy" },
-        { ECoreType.v2rayN, "2dust/v2rayN" },
+        { ECoreType.v2rayN, "firexbox/v2-ep" },
     };
 
     public static readonly List<string> OtherGeoUrls =
